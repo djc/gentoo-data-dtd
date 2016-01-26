@@ -1,0 +1,69 @@
+start = packages | catmetadata | pkgmetadata
+
+packages = element packages {
+  pkgmetadata*
+}
+
+catmetadata = element catmetadata {
+  attribute pkgname { text }?,
+  longdescription*
+}
+
+longdescription = element longdescription {
+  attribute lang { text }?,
+  attribute restrict { text }?,
+  mixed { pkg* | cat* }
+}
+pkg = element pkg { text }
+cat = element cat { text }
+
+pkgmetadata = element pkgmetadata {
+  element maintainer {
+    attribute type { "person" | "project" },
+    attribute status { "active" | "inactive" }?,
+    attribute restrict { text }?,
+    (
+      element email { text }? &
+      element name { text }? &
+      element description { attribute lang { text }?, text }?
+    )
+  }* &
+  element natural-name { text }* &
+  longdescription* &
+  element slots {
+    attribute lang { text }?,
+    element slot { attribute name { text }, text? }*,
+    element subslots { text }?
+  }* &
+  element use {
+    attribute lang { text }?,
+    element flag {
+      attribute name { text },
+      attribute restrict { text }?,
+      mixed { pkg* & cat* }
+    }*
+  }* &
+  element upstream {
+    element maintainer {
+      attribute type { "person" | "project" }? &
+      attribute status { "active" | "inactive" | "unknown" }? &
+      element email { text } &
+      element name { text }? &
+      element description { attribute lang { text }?, text }*
+    }* &
+    element changelog {
+      text 
+    }? &
+    element doc { attribute lang { text }?, text }? &
+    element bugs-to { text }* &
+    element remote-id {
+      attribute type {
+        "bitbucket" | "cpan" | "cpan-module" | "cpe" | "cran" | "ctan" |
+        "freecode" | "freshmeat" | "github" | "gitlab" | "gitorious" |
+        "google-code" | "launchpad" | "pear" | "pecl" | "pypi" | "rubyforge" |
+        "rubygems" | "sourceforge" | "sourceforge-jp" | "vim"
+      },
+      text
+    }*
+  }*
+}
