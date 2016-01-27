@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0">
+  <start>
+    <choice>
+      <ref name="packages"/>
+      <ref name="catmetadata"/>
+      <ref name="pkgmetadata"/>
+    </choice>
+  </start>
+  <define name="packages">
+    <element>
+      <name ns="">packages</name>
+      <zeroOrMore>
+        <ref name="pkgmetadata"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="catmetadata">
+    <element>
+      <name ns="">catmetadata</name>
+      <optional>
+        <attribute>
+          <name ns="">pkgname</name>
+          <text/>
+        </attribute>
+      </optional>
+      <zeroOrMore>
+        <ref name="longdescription"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="longdescription">
+    <element>
+      <name ns="">longdescription</name>
+      <optional>
+        <attribute>
+          <name ns="">lang</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">restrict</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <choice>
+          <zeroOrMore>
+            <ref name="pkg"/>
+          </zeroOrMore>
+          <zeroOrMore>
+            <ref name="cat"/>
+          </zeroOrMore>
+        </choice>
+      </mixed>
+    </element>
+  </define>
+  <define name="pkg">
+    <element>
+      <name ns="">pkg</name>
+      <text/>
+    </element>
+  </define>
+  <define name="cat">
+    <element>
+      <name ns="">cat</name>
+      <text/>
+    </element>
+  </define>
+  <define name="pkgmetadata">
+    <element>
+      <name ns="">pkgmetadata</name>
+      <interleave>
+        <zeroOrMore>
+          <element>
+            <name ns="">maintainer</name>
+            <attribute>
+              <name ns="">type</name>
+              <choice>
+                <value>person</value>
+                <value>project</value>
+              </choice>
+            </attribute>
+            <optional>
+              <attribute>
+                <name ns="">status</name>
+                <choice>
+                  <value>active</value>
+                  <value>inactive</value>
+                </choice>
+              </attribute>
+            </optional>
+            <optional>
+              <attribute>
+                <name ns="">restrict</name>
+                <text/>
+              </attribute>
+            </optional>
+            <interleave>
+              <optional>
+                <element>
+                  <name ns="">email</name>
+                  <text/>
+                </element>
+              </optional>
+              <optional>
+                <element>
+                  <name ns="">name</name>
+                  <text/>
+                </element>
+              </optional>
+              <optional>
+                <element>
+                  <name ns="">description</name>
+                  <optional>
+                    <attribute>
+                      <name ns="">lang</name>
+                      <text/>
+                    </attribute>
+                  </optional>
+                  <text/>
+                </element>
+              </optional>
+            </interleave>
+          </element>
+        </zeroOrMore>
+        <zeroOrMore>
+          <element>
+            <name ns="">natural-name</name>
+            <text/>
+          </element>
+        </zeroOrMore>
+        <zeroOrMore>
+          <ref name="longdescription"/>
+        </zeroOrMore>
+        <zeroOrMore>
+          <element>
+            <name ns="">slots</name>
+            <optional>
+              <attribute>
+                <name ns="">lang</name>
+                <text/>
+              </attribute>
+            </optional>
+            <zeroOrMore>
+              <element>
+                <name ns="">slot</name>
+                <attribute>
+                  <name ns="">name</name>
+                  <text/>
+                </attribute>
+                <optional>
+                  <text/>
+                </optional>
+              </element>
+            </zeroOrMore>
+            <optional>
+              <element>
+                <name ns="">subslots</name>
+                <text/>
+              </element>
+            </optional>
+          </element>
+        </zeroOrMore>
+        <zeroOrMore>
+          <element>
+            <name ns="">use</name>
+            <optional>
+              <attribute>
+                <name ns="">lang</name>
+                <text/>
+              </attribute>
+            </optional>
+            <zeroOrMore>
+              <element>
+                <name ns="">flag</name>
+                <attribute>
+                  <name ns="">name</name>
+                  <text/>
+                </attribute>
+                <optional>
+                  <attribute>
+                    <name ns="">restrict</name>
+                    <text/>
+                  </attribute>
+                </optional>
+                <mixed>
+                  <interleave>
+                    <zeroOrMore>
+                      <ref name="pkg"/>
+                    </zeroOrMore>
+                    <zeroOrMore>
+                      <ref name="cat"/>
+                    </zeroOrMore>
+                  </interleave>
+                </mixed>
+              </element>
+            </zeroOrMore>
+          </element>
+        </zeroOrMore>
+        <zeroOrMore>
+          <element>
+            <name ns="">upstream</name>
+            <interleave>
+              <zeroOrMore>
+                <element>
+                  <name ns="">maintainer</name>
+                  <interleave>
+                    <optional>
+                      <attribute>
+                        <name ns="">type</name>
+                        <choice>
+                          <value>person</value>
+                          <value>project</value>
+                        </choice>
+                      </attribute>
+                    </optional>
+                    <optional>
+                      <attribute>
+                        <name ns="">status</name>
+                        <choice>
+                          <value>active</value>
+                          <value>inactive</value>
+                          <value>unknown</value>
+                        </choice>
+                      </attribute>
+                    </optional>
+                    <element>
+                      <name ns="">email</name>
+                      <text/>
+                    </element>
+                    <optional>
+                      <element>
+                        <name ns="">name</name>
+                        <text/>
+                      </element>
+                    </optional>
+                    <zeroOrMore>
+                      <element>
+                        <name ns="">description</name>
+                        <optional>
+                          <attribute>
+                            <name ns="">lang</name>
+                            <text/>
+                          </attribute>
+                        </optional>
+                        <text/>
+                      </element>
+                    </zeroOrMore>
+                  </interleave>
+                </element>
+              </zeroOrMore>
+              <optional>
+                <element>
+                  <name ns="">changelog</name>
+                  <text/>
+                </element>
+              </optional>
+              <optional>
+                <element>
+                  <name ns="">doc</name>
+                  <optional>
+                    <attribute>
+                      <name ns="">lang</name>
+                      <text/>
+                    </attribute>
+                  </optional>
+                  <text/>
+                </element>
+              </optional>
+              <zeroOrMore>
+                <element>
+                  <name ns="">bugs-to</name>
+                  <text/>
+                </element>
+              </zeroOrMore>
+              <zeroOrMore>
+                <element>
+                  <name ns="">remote-id</name>
+                  <attribute>
+                    <name ns="">type</name>
+                    <choice>
+                      <value>bitbucket</value>
+                      <value>cpan</value>
+                      <value>cpan-module</value>
+                      <value>cpe</value>
+                      <value>cran</value>
+                      <value>ctan</value>
+                      <value>freecode</value>
+                      <value>freshmeat</value>
+                      <value>github</value>
+                      <value>gitlab</value>
+                      <value>gitorious</value>
+                      <value>google-code</value>
+                      <value>launchpad</value>
+                      <value>pear</value>
+                      <value>pecl</value>
+                      <value>pypi</value>
+                      <value>rubyforge</value>
+                      <value>rubygems</value>
+                      <value>sourceforge</value>
+                      <value>sourceforge-jp</value>
+                      <value>vim</value>
+                    </choice>
+                  </attribute>
+                  <text/>
+                </element>
+              </zeroOrMore>
+            </interleave>
+          </element>
+        </zeroOrMore>
+      </interleave>
+    </element>
+  </define>
+</grammar>
